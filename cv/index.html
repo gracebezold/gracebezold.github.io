@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Curriculum vitae &middot; Grace Bezold</title>
+<meta name="description" content="Curriculum vitae of Grace Bezold, applied ML research scientist.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#131a1f;
+    --paper:#f1f3ef;
+    --rule:#d4d9d1;
+    --muted:#5d6862;
+    --signal:#17706e;
+    --display:"Newsreader",Georgia,serif;
+    --body:"IBM Plex Sans",system-ui,sans-serif;
+    --meta:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:1060px;
+    margin:0 auto;
+    padding:clamp(2rem,5vw,3.5rem) clamp(1.25rem,5vw,3rem) 4rem;
+  }
+  .back{
+    font-family:var(--meta);
+    font-size:.75rem;
+    letter-spacing:.06em;
+    text-transform:uppercase;
+    color:var(--muted);
+    text-decoration:none;
+  }
+  .back:hover,.back:focus-visible{color:var(--signal)}
+
+  .head{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:1rem 2rem;
+    margin:1.75rem 0 1rem;
+    padding-bottom:1rem;
+    border-bottom:1px solid var(--rule);
+  }
+  h1{
+    font-family:var(--display);
+    font-weight:400;
+    font-size:clamp(1.9rem,4.5vw,2.5rem);
+    letter-spacing:-.015em;
+    margin:0;
+  }
+  .stamp{font-family:var(--meta);font-size:.74rem;color:var(--muted);letter-spacing:.02em}
+
+  .actions{display:flex;flex-wrap:wrap;gap:.75rem;margin:0 0 2rem}
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:.5rem;
+    padding:.6rem 1.05rem;
+    border:1px solid var(--ink);
+    text-decoration:none;
+    color:var(--ink);
+    font-size:.88rem;
+    transition:background .15s ease,color .15s ease;
+  }
+  .btn:hover,.btn:focus-visible{background:var(--ink);color:var(--paper)}
+  .btn.ghost{border-color:var(--rule);color:var(--muted)}
+  .btn.ghost:hover,.btn.ghost:focus-visible{background:transparent;border-color:var(--ink);color:var(--ink)}
+
+  .viewer{
+    width:100%;
+    height:min(1180px,132vw);
+    border:1px solid var(--rule);
+    background:#fff;
+  }
+  .fallback{
+    border:1px solid var(--rule);
+    background:#fff;
+    padding:1.5rem;
+  }
+  .fallback p{margin:0 0 1rem;color:var(--muted);font-size:.94rem}
+  /* Inline PDF embedding is unreliable on phones — send them straight to the file. */
+  @media (max-width:720px){.viewer{display:none}}
+  @media (min-width:721px){.fallback{display:none}}
+
+  :focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <a class="back" href="../">&larr; Grace Bezold</a>
+
+  <div class="head">
+    <h1>Curriculum vitae</h1>
+    <!-- TODO: bump this date whenever you push a new cv.pdf. -->
+    <span class="stamp">Updated August 2026 &middot; PDF</span>
+  </div>
+
+  <div class="actions">
+    <a class="btn" href="../cv.pdf" download>Download PDF</a>
+    <a class="btn ghost" href="../cv.pdf" target="_blank" rel="noopener">Open in new tab</a>
+  </div>
+
+  <object class="viewer" data="../cv.pdf" type="application/pdf" aria-label="Curriculum vitae, PDF">
+    <div class="fallback">
+      <p>Your browser can't display the PDF inline.</p>
+      <a class="btn" href="../cv.pdf">Open the CV</a>
+    </div>
+  </object>
+
+  <div class="fallback">
+    <p>The CV is a PDF.</p>
+    <a class="btn" href="../cv.pdf">Open the CV</a>
+  </div>
+
+</div>
+</body>
+</html>
