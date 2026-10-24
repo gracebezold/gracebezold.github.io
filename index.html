@@ -130,6 +130,13 @@
   }
   .threads p{font-size:.94rem;color:var(--muted);margin:0;max-width:58ch}
 
+  .now-reading{list-style:none;margin:0 0 1.1rem;padding:0}
+  .now-reading:empty{display:none}
+  .now-reading li{padding:.55rem 0;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:baseline;gap:1rem;flex-wrap:wrap}
+  .now-reading li:last-child{border-bottom:1px solid var(--rule)}
+  .now-reading .title{font-family:var(--display);font-size:1.05rem;font-style:italic}
+  .now-reading .author{font-family:var(--meta);font-size:.74rem;color:var(--muted);letter-spacing:.02em}
+
   footer{
     border-top:1px solid var(--rule);
     padding-top:1rem;
@@ -182,11 +189,32 @@
       
     </section>
 
+    <section class="block">
+      <p class="eyebrow">What I'm reading</p>
+      <ul class="now-reading" id="now-reading"></ul>
+      <p><a href="./reading/">Full reading log &rarr;</a></p>
+    </section>
+
     <footer>
       Last updated <span id="updated">August 2026</span> &middot; Built with GitHub Pages
     </footer>
 
   </main>
 </div>
+<script>
+  // Fill "What I'm reading" from reading-log.json (the only file you edit).
+  fetch('./reading-log.json', {cache: 'no-cache'})
+    .then(r => r.json())
+    .then(log => {
+      const ul = document.getElementById('now-reading');
+      for (const [title, author] of Object.entries(log.currently || {})) {
+        const li = document.createElement('li');
+        const t = document.createElement('span'); t.className = 'title'; t.textContent = title;
+        const a = document.createElement('span'); a.className = 'author'; a.textContent = author;
+        li.append(t, a); ul.append(li);
+      }
+    })
+    .catch(() => {}); // if it fails, the section still shows the link to the full log
+</script>
 </body>
 </html>
