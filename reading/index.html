@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading log · Grace Bezold</title>
+<meta name="description" content="What Grace Bezold is reading and has read.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#131a1f;
+    --paper:#f1f3ef;
+    --rule:#d4d9d1;
+    --muted:#5d6862;
+    --signal:#17706e;
+    --display:"Newsreader",Georgia,serif;
+    --body:"IBM Plex Sans",system-ui,sans-serif;
+    --meta:"IBM Plex Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  .shell{
+    max-width:720px;
+    margin:0 auto;
+    padding:clamp(2.5rem,6vw,5.5rem) clamp(1.25rem,5vw,3rem) 4rem;
+  }
+  .back{
+    font-family:var(--meta);
+    font-size:.74rem;
+    letter-spacing:.02em;
+    color:var(--muted);
+    text-decoration:none;
+  }
+  .back:hover,.back:focus-visible{color:var(--signal)}
+  h1{
+    font-family:var(--display);
+    font-weight:400;
+    font-size:clamp(2.2rem,5vw,2.8rem);
+    line-height:1.05;
+    letter-spacing:-.015em;
+    margin:1.25rem 0 2.75rem;
+  }
+  .block{margin:0 0 3rem}
+  .eyebrow{
+    font-family:var(--meta);
+    font-size:.7rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 1rem;
+  }
+  .books{list-style:none;margin:0;padding:0}
+  .books li{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:.15rem 1rem;
+    align-items:baseline;
+    padding:.8rem 0;
+    border-top:1px solid var(--rule);
+  }
+  .books li:last-child{border-bottom:1px solid var(--rule)}
+  .title{font-family:var(--display);font-size:1.1rem;font-style:italic}
+  .author{grid-column:1;font-size:.9rem;color:var(--muted)}
+  .when{
+    grid-column:2;grid-row:1 / span 2;
+    font-family:var(--meta);font-size:.74rem;color:var(--muted);letter-spacing:.02em;
+    align-self:center;
+  }
+  .status{color:var(--muted);font-size:.9rem}
+  footer{
+    border-top:1px solid var(--rule);
+    padding-top:1rem;
+    font-family:var(--meta);
+    font-size:.72rem;
+    color:var(--muted);
+    letter-spacing:.02em;
+  }
+  :focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="shell">
+  <a class="back" href="../">&larr; Grace Bezold</a>
+  <h1>Reading log</h1>
+
+  <section class="block">
+    <p class="eyebrow">Currently reading</p>
+    <ul class="books" id="currently"><li class="status">Loading…</li></ul>
+  </section>
+
+  <section class="block">
+    <p class="eyebrow">Finished</p>
+    <ul class="books" id="finished"></ul>
+  </section>
+
+  <footer><span id="count"></span></footer>
+</div>
+
+<script>
+  // Everything on this page comes from ../reading-log.json.
+  // Schema: { "currently": {title: author}, "finished": {title: [author, month]} }
+  // Finished books are shown in the order they appear in the file (newest first).
+  function row(title, author, when) {
+    const li = document.createElement('li');
+    const t = document.createElement('span'); t.className = 'title'; t.textContent = title;
+    const a = document.createElement('span'); a.className = 'author'; a.textContent = author;
+    li.append(t, a);
+    if (when) {
+      const w = document.createElement('span'); w.className = 'when'; w.textContent = when;
+      li.append(w);
+    }
+    return li;
+  }
+
+  const cur = document.getElementById('currently');
+  const fin = document.getElementById('finished');
+
+  fetch('../reading-log.json', {cache: 'no-cache'})
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(log => {
+      cur.replaceChildren();
+      for (const [title, author] of Object.entries(log.currently || {})) {
+        cur.append(row(title, author));
+      }
+      const finished = Object.entries(log.finished || {});
+      for (const [title, [author, when]] of finished) {
+        fin.append(row(title, author, when));
+      }
+      document.getElementById('count').textContent =
+        finished.length + ' finished';
+    })
+    .catch(() => {
+      cur.replaceChildren(Object.assign(document.createElement('li'),
+        {className: 'status', textContent: 'Couldn’t load the reading log.'}));
+    });
+</script>
+</body>
+</html>

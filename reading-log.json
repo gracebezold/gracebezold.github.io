@@ -1,0 +1,16 @@
+{
+    "currently": {
+        "Against Interpretation" : "Susan Sontag",
+        "The Rabbit Hutch" : "Tess Gunty"
+    },
+    "finished": {
+        "The Berlin Game" : ["Len Deighton", "October"],
+        "On Lying and Politics" : ["Hannah Arendt", "September"],
+        "East of Eden" : ["John Steinbeck", "September"],
+        "North Woods" : ["Daniel Mason", "August"],
+        "Freedom is a Constant Struggle" : ["Angela Davis", "May"],
+        "Rejection" : ["Tony Tulathimutte", "April"],
+        "Mood Machine" : ["Liz Pelly","March"],
+        "Crime and Punishment" : ["Fyodor Dostoevsky", "February"]
+    }
+}
