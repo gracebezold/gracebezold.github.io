@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Reading log · Grace Bezold</title>
-<meta name="description" content="What Grace Bezold is reading and has read.">
+<title>Recent favorites · Grace Bezold</title>
+<meta name="description" content="Books Grace Bezold has loved recently.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
@@ -80,23 +80,16 @@
 <body>
 <div class="shell">
   <a class="back" href="../">&larr; Grace Bezold</a>
-  <h1>Reading log</h1>
+  <h1>Recent favorites</h1>
 
   <section class="block">
-    <p class="eyebrow">Currently reading</p>
-    <ul class="books" id="currently"><li class="status">Loading…</li></ul>
-  </section>
-
-  <section class="block">
-    <p class="eyebrow">Recent favorites</p>
-    <ul class="books" id="favorites"></ul>
+    <ul class="books" id="favorites"><li class="status">Loading…</li></ul>
   </section>
 </div>
 
 <script>
-  // Everything on this page comes from ../reading-log.json.
-  // Schema: { "currently": {title: author}, "favorites": {title: author} }
-  // Books are shown in the order they appear in the file.
+  // Shows the "favorites" section of ../reading-log.json ({title: author}),
+  // in file order. "currently" is shown on the landing page instead.
   function row(title, author) {
     const li = document.createElement('li');
     const t = document.createElement('span'); t.className = 'title'; t.textContent = title;
@@ -105,22 +98,18 @@
     return li;
   }
 
-  const cur = document.getElementById('currently');
   const fav = document.getElementById('favorites');
 
   fetch('../reading-log.json', {cache: 'no-cache'})
     .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(log => {
-      cur.replaceChildren();
-      for (const [title, author] of Object.entries(log.currently || {})) {
-        cur.append(row(title, author));
-      }
+      fav.replaceChildren();
       for (const [title, author] of Object.entries(log.favorites || {})) {
         fav.append(row(title, author));
       }
     })
     .catch(() => {
-      cur.replaceChildren(Object.assign(document.createElement('li'),
+      fav.replaceChildren(Object.assign(document.createElement('li'),
         {className: 'status', textContent: 'Couldn’t load the reading log.'}));
     });
 </script>
