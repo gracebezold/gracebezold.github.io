@@ -73,20 +73,7 @@
   .books li:last-child{border-bottom:1px solid var(--rule)}
   .title{font-family:var(--display);font-size:1.1rem;font-style:italic}
   .author{grid-column:1;font-size:.9rem;color:var(--muted)}
-  .when{
-    grid-column:2;grid-row:1 / span 2;
-    font-family:var(--meta);font-size:.74rem;color:var(--muted);letter-spacing:.02em;
-    align-self:center;
-  }
   .status{color:var(--muted);font-size:.9rem}
-  footer{
-    border-top:1px solid var(--rule);
-    padding-top:1rem;
-    font-family:var(--meta);
-    font-size:.72rem;
-    color:var(--muted);
-    letter-spacing:.02em;
-  }
   :focus-visible{outline:2px solid var(--signal);outline-offset:3px}
 </style>
 </head>
@@ -101,31 +88,25 @@
   </section>
 
   <section class="block">
-    <p class="eyebrow">Finished</p>
-    <ul class="books" id="finished"></ul>
+    <p class="eyebrow">Recent favorites</p>
+    <ul class="books" id="favorites"></ul>
   </section>
-
-  <footer><span id="count"></span></footer>
 </div>
 
 <script>
   // Everything on this page comes from ../reading-log.json.
-  // Schema: { "currently": {title: author}, "finished": {title: [author, month]} }
-  // Finished books are shown in the order they appear in the file (newest first).
-  function row(title, author, when) {
+  // Schema: { "currently": {title: author}, "favorites": {title: author} }
+  // Books are shown in the order they appear in the file.
+  function row(title, author) {
     const li = document.createElement('li');
     const t = document.createElement('span'); t.className = 'title'; t.textContent = title;
     const a = document.createElement('span'); a.className = 'author'; a.textContent = author;
     li.append(t, a);
-    if (when) {
-      const w = document.createElement('span'); w.className = 'when'; w.textContent = when;
-      li.append(w);
-    }
     return li;
   }
 
   const cur = document.getElementById('currently');
-  const fin = document.getElementById('finished');
+  const fav = document.getElementById('favorites');
 
   fetch('../reading-log.json', {cache: 'no-cache'})
     .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -134,12 +115,9 @@
       for (const [title, author] of Object.entries(log.currently || {})) {
         cur.append(row(title, author));
       }
-      const finished = Object.entries(log.finished || {});
-      for (const [title, [author, when]] of finished) {
-        fin.append(row(title, author, when));
+      for (const [title, author] of Object.entries(log.favorites || {})) {
+        fav.append(row(title, author));
       }
-      document.getElementById('count').textContent =
-        finished.length + ' finished';
     })
     .catch(() => {
       cur.replaceChildren(Object.assign(document.createElement('li'),

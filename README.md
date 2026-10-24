@@ -9,7 +9,7 @@ Personal site. Static HTML, no build step, served by GitHub Pages from `main` / 
 │   └── index.html  CV page — embeds cv.pdf, links to it
 ├── reading/
 │   └── index.html  reading log page — renders reading-log.json
-├── reading-log.json  books (currently + finished)  <-- YOU EDIT THIS
+├── reading-log.json  books (currently + favorites)  <-- YOU EDIT THIS
 ├── cv.pdf          the actual CV  <-- YOU ADD THIS
 ├── .nojekyll       tells Pages to serve files as-is (skip Jekyll)
 └── README.md
@@ -28,7 +28,8 @@ Personal site. Static HTML, no build step, served by GitHub Pages from `main` / 
 ## Updating the reading log
 
 Edit `reading-log.json` only — both the landing page ("What I'm reading")
-and `/reading/` read it at load time. Put newest finished books first.
+and `/reading/` read it at load time. Both sections use the same shape,
+`"Title": "Author"`, and show in the order they appear in the file.
 
 Previewing locally needs a server (browsers block `fetch` on `file://`):
 
